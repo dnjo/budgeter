@@ -52,14 +52,15 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void testDeleteCategory() {
+    public void testDeleteCategoryById() {
         var category = new Category();
         category.setName("Shopping");
         Category savedCategory = categoryRepository.save(category);
 
-        categoryRepository.delete(savedCategory);
+        categoryRepository.deleteById(savedCategory.getId());
         Category deletedCategory = categoryRepository.findById(savedCategory.getId()).orElse(null);
 
         assertThat(deletedCategory).isNull();
     }
+
 }
