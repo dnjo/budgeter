@@ -1,5 +1,9 @@
 package net.dnjo.budgeter.services;
 
+import net.dnjo.budgeter.dtos.CategoryResponse;
+import net.dnjo.budgeter.dtos.CreateCategoryRequest;
+import net.dnjo.budgeter.dtos.UpdateCategoryRequest;
+import net.dnjo.budgeter.exceptions.EntityNotFoundException;
 import net.dnjo.budgeter.models.Category;
 import net.dnjo.budgeter.repositories.CategoryRepository;
 import org.junit.jupiter.api.Test;
@@ -11,8 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
@@ -25,51 +31,67 @@ class CategoryServiceTest {
 
     @Test
     public void testCreateCategory() {
-        var category = new Category();
-        category.setId(1L);
-        category.setName("Shopping");
+        var createdCategory = new Category(1L, "Shopping");
+        when(categoryRepository.save(any())).thenReturn(createdCategory);
 
-        when(categoryRepository.save(eq(category))).thenReturn(category);
+        var request = new CreateCategoryRequest("Shopping");
+        CategoryResponse response = categoryService.createCategory(request);
 
-        Category createdCategory = categoryService.createCategory(category);
-
-        assertThat(createdCategory).isEqualTo(category);
-        verify(categoryRepository).save(category);
+        CategoryResponse expectedResponse = new CategoryResponse(1L, "Shopping");
+        assertThat(response).usingRecursiveComparison().isEqualTo(expectedResponse);
+        verify(categoryRepository).save(any());
     }
 
     @Test
     public void testFindCategoryById() {
-        var category = new Category();
-        category.setId(1L);
-        category.setName("Shopping");
+        var foundCategory = new Category(1L, "Shopping");
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(foundCategory));
 
-        when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
+        Optional<CategoryResponse> response = categoryService.findCategoryById(1L);
 
-        Optional<Category> foundCategory = categoryService.findCategoryById(1L);
-
-        assertThat(foundCategory).isEqualTo(Optional.of(category));
+        CategoryResponse expectedResponse = new CategoryResponse(1L, "Shopping");
+        assertThat(response).usingRecursiveComparison().isEqualTo(Optional.of(expectedResponse));
         verify(categoryRepository).findById(1L);
     }
 
     @Test
     public void testUpdateCategory() {
-        var category = new Category();
-        category.setId(1L);
-        category.setName("Shopping");
+        var updatedCategory = new Category(1L, "Shopping");
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(updatedCategory));
+        when(categoryRepository.save(any())).thenReturn(updatedCategory);
 
-        when(categoryRepository.save(eq(category))).thenReturn(category);
+        var request = new UpdateCategoryRequest(1L, "Shopping");
+        CategoryResponse response = categoryService.updateCategory(request);
 
-        Category updatedCategory = categoryService.updateCategory(category);
+        CategoryResponse expectedResponse = new CategoryResponse(1L, "Shopping");
+        assertThat(response).usingRecursiveComparison().isEqualTo(expectedResponse);
+        verify(categoryRepository).save(any());
+    }
 
-        assertThat(updatedCategory).isEqualTo(category);
-        verify(categoryRepository).save(category);
+    @Test
+    public void testUpdateCategory_categoryNotFound_throwsException() {
+        when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
+
+        var request = new UpdateCategoryRequest(1L, "Shopping");
+        assertThatExceptionOfType(EntityNotFoundException.class)
+                .isThrownBy(() -> categoryService.updateCategory(request));
     }
 
     @Test
     public void testDeleteCategory() {
+        when(categoryRepository.existsById(1L)).thenReturn(true);
+
         categoryService.deleteCategoryById(1L);
 
         verify(categoryRepository).deleteById(1L);
+    }
+
+    @Test
+    public void testDeleteCategory_categoryNotFound_throwsException() {
+        when(categoryRepository.existsById(1L)).thenReturn(false);
+
+        assertThatExceptionOfType(EntityNotFoundException.class)
+                .isThrownBy(() -> categoryService.deleteCategoryById(1L));
     }
 
 }

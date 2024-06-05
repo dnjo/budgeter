@@ -1,5 +1,9 @@
 package net.dnjo.budgeter.services;
 
+import net.dnjo.budgeter.dtos.CategoryResponse;
+import net.dnjo.budgeter.dtos.CreateCategoryRequest;
+import net.dnjo.budgeter.dtos.UpdateCategoryRequest;
+import net.dnjo.budgeter.exceptions.EntityNotFoundException;
 import net.dnjo.budgeter.models.Category;
 import net.dnjo.budgeter.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -15,20 +19,33 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Category createCategory(Category category) {
-        return categoryRepository.save(category);
+    public CategoryResponse createCategory(CreateCategoryRequest request) {
+        Category createCategory = new Category();
+        createCategory.setName(request.getName());
+        return mapCategoryResponse(categoryRepository.save(createCategory));
     }
 
-    public Optional<Category> findCategoryById(Long id) {
-        return categoryRepository.findById(id);
+    public Optional<CategoryResponse> findCategoryById(Long id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        return category.map(this::mapCategoryResponse);
     }
 
-    public Category updateCategory(Category category) {
-        return categoryRepository.save(category);
+    public CategoryResponse updateCategory(UpdateCategoryRequest request) {
+        Category updateCategory = categoryRepository.findById(request.getId())
+                .orElseThrow(EntityNotFoundException::new);
+        updateCategory.setName(request.getName());
+        return mapCategoryResponse(categoryRepository.save(updateCategory));
     }
 
     public void deleteCategoryById(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new EntityNotFoundException();
+        }
         categoryRepository.deleteById(id);
+    }
+
+    private CategoryResponse mapCategoryResponse(Category category) {
+        return new CategoryResponse(category.getId(), category.getName());
     }
 
 }
