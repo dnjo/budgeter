@@ -3,6 +3,7 @@ package net.dnjo.budgeter.models
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "users_account")
 class User(
 
     @Id
