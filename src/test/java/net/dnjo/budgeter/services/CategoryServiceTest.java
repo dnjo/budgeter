@@ -60,8 +60,8 @@ class CategoryServiceTest {
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(updatedCategory));
         when(categoryRepository.save(any())).thenReturn(updatedCategory);
 
-        var request = new UpdateCategoryRequest(1L, "Shopping");
-        CategoryResponse response = categoryService.updateCategory(request);
+        var request = new UpdateCategoryRequest("Shopping");
+        CategoryResponse response = categoryService.updateCategory(1L, request);
 
         CategoryResponse expectedResponse = new CategoryResponse(1L, "Shopping");
         assertThat(response).usingRecursiveComparison().isEqualTo(expectedResponse);
@@ -72,9 +72,9 @@ class CategoryServiceTest {
     public void testUpdateCategory_categoryNotFound_throwsException() {
         when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
 
-        var request = new UpdateCategoryRequest(1L, "Shopping");
+        var request = new UpdateCategoryRequest("Shopping");
         assertThatExceptionOfType(EntityNotFoundException.class)
-                .isThrownBy(() -> categoryService.updateCategory(request));
+                .isThrownBy(() -> categoryService.updateCategory(1L, request));
     }
 
     @Test

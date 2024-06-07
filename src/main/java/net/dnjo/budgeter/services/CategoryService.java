@@ -30,8 +30,8 @@ public class CategoryService {
         return category.map(this::mapCategoryResponse);
     }
 
-    public CategoryResponse updateCategory(UpdateCategoryRequest request) {
-        Category updateCategory = categoryRepository.findById(request.getId())
+    public CategoryResponse updateCategory(Long id, UpdateCategoryRequest request) {
+        Category updateCategory = categoryRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         updateCategory.setName(request.getName());
         return mapCategoryResponse(categoryRepository.save(updateCategory));
