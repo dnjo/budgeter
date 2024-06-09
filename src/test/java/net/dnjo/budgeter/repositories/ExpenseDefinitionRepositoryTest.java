@@ -10,7 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DataJpaTest
 class ExpenseDefinitionRepositoryTest {
@@ -31,7 +32,7 @@ class ExpenseDefinitionRepositoryTest {
     }
 
     @Test
-    public void testSaveExpenseDefinition() {
+    public void saveExpenseDefinition() {
         var expenseDefinition = new ExpenseDefinition();
         expenseDefinition.setCategory(savedCategory);
         expenseDefinition.setName("Rent");

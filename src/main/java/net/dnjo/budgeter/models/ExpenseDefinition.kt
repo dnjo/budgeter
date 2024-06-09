@@ -24,5 +24,5 @@ class ExpenseDefinition(
     var name: String,
 
     @Column
-    var description: String
+    var description: String?
 )

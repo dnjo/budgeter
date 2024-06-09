@@ -1,5 +1,6 @@
 package net.dnjo.budgeter.services;
 
+import net.dnjo.budgeter.EntityDtoMapper;
 import net.dnjo.budgeter.dtos.CategoryResponse;
 import net.dnjo.budgeter.dtos.CreateCategoryRequest;
 import net.dnjo.budgeter.dtos.UpdateCategoryRequest;
@@ -9,6 +10,8 @@ import net.dnjo.budgeter.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static net.dnjo.budgeter.EntityDtoMapper.mapCategoryResponse;
 
 @Service
 public class CategoryService {
@@ -27,7 +30,7 @@ public class CategoryService {
 
     public Optional<CategoryResponse> findCategoryById(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
-        return category.map(this::mapCategoryResponse);
+        return category.map(EntityDtoMapper::mapCategoryResponse);
     }
 
     public CategoryResponse updateCategory(Long id, UpdateCategoryRequest request) {
@@ -42,10 +45,6 @@ public class CategoryService {
             throw new EntityNotFoundException();
         }
         categoryRepository.deleteById(id);
-    }
-
-    private CategoryResponse mapCategoryResponse(Category category) {
-        return new CategoryResponse(category.getId(), category.getName());
     }
 
 }
