@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -26,7 +28,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void findById() {
+    public void findCategoryById() {
         var category = new Category();
         category.setName("Shopping");
         Category savedCategory = categoryRepository.save(category);
@@ -35,6 +37,23 @@ class CategoryRepositoryTest {
 
         assertThat(foundCategory).isNotNull();
         assertThat(foundCategory.getName()).isEqualTo("Shopping");
+    }
+
+    @Test
+    public void findAllCategories() {
+        var category1 = new Category();
+        category1.setName("Shopping");
+        Category savedCategory1 = categoryRepository.save(category1);
+        var category2 = new Category();
+        category2.setName("Transportation");
+        Category savedCategory2 = categoryRepository.save(category2);
+
+        List<Category> foundCategories = categoryRepository.findAll();
+
+        List<Category> expectedCategories = List.of(
+                new Category(savedCategory1.getId(), "Shopping"),
+                new Category(savedCategory2.getId(), "Transportation"));
+        assertThat(foundCategories).usingRecursiveComparison().isEqualTo(expectedCategories);
     }
 
     @Test

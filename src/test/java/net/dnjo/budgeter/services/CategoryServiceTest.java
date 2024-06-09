@@ -12,11 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
+import static net.dnjo.budgeter.EntityDtoMapper.mapCategoryResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +54,20 @@ class CategoryServiceTest {
         CategoryResponse expectedResponse = new CategoryResponse(1L, "Shopping");
         assertThat(response).usingRecursiveComparison().isEqualTo(Optional.of(expectedResponse));
         verify(categoryRepository).findById(1L);
+    }
+
+    @Test
+    public void findAllCategories() {
+        Category category1 = new Category(1L, "Shopping");
+        Category category2 = new Category(1L, "Transportation");
+        when(categoryRepository.findAll()).thenReturn(List.of(category1, category2));
+
+        List<CategoryResponse> allCategories = categoryService.findAllCategories();
+
+        List<CategoryResponse> expectedResponses = List.of(
+                mapCategoryResponse(category1),
+                mapCategoryResponse(category2));
+        assertThat(allCategories).usingRecursiveComparison().isEqualTo(expectedResponses);
     }
 
     @Test

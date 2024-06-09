@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -64,6 +65,21 @@ class CategoryControllerTest {
 
         mockMvc.perform(get("/categories/1"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void findAllCategories() throws Exception {
+        CategoryResponse categoryResponse1 = new CategoryResponse(1L, "Shopping");
+        CategoryResponse categoryResponse2 = new CategoryResponse(2L, "Transportation");
+
+        when(categoryService.findAllCategories()).thenReturn(List.of(categoryResponse1, categoryResponse2));
+
+        mockMvc.perform(get("/categories"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1L))
+                .andExpect(jsonPath("$[0].name").value("Shopping"))
+                .andExpect(jsonPath("$[1].id").value(2L))
+                .andExpect(jsonPath("$[1].name").value("Transportation"));
     }
 
     @Test
