@@ -14,7 +14,7 @@ class CategoryRepositoryTest {
     private CategoryRepository categoryRepository;
 
     @Test
-    public void testSaveCategory() {
+    public void saveCategory() {
         var category = new Category();
         category.setName("Shopping");
 
@@ -26,7 +26,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void testFindById() {
+    public void findById() {
         var category = new Category();
         category.setName("Shopping");
         Category savedCategory = categoryRepository.save(category);
@@ -38,7 +38,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void testUpdateCategory() {
+    public void updateCategory() {
         var category = new Category();
         category.setName("Shopping");
         Category savedCategory = categoryRepository.save(category);
@@ -52,7 +52,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void testDeleteCategoryById() {
+    public void deleteCategoryById() {
         var category = new Category();
         category.setName("Shopping");
         Category savedCategory = categoryRepository.save(category);

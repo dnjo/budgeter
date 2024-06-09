@@ -30,7 +30,7 @@ class CategoryServiceTest {
     private CategoryService categoryService;
 
     @Test
-    public void testCreateCategory() {
+    public void createCategory() {
         var createdCategory = new Category(1L, "Shopping");
         when(categoryRepository.save(any())).thenReturn(createdCategory);
 
@@ -43,7 +43,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testFindCategoryById() {
+    public void findCategoryById() {
         var foundCategory = new Category(1L, "Shopping");
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(foundCategory));
 
@@ -55,7 +55,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testUpdateCategory() {
+    public void updateCategory() {
         var updatedCategory = new Category(1L, "Shopping");
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(updatedCategory));
         when(categoryRepository.save(any())).thenReturn(updatedCategory);
@@ -69,7 +69,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testUpdateCategory_categoryNotFound_throwsException() {
+    public void updateCategory_categoryNotFound_throwsException() {
         when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
 
         var request = new UpdateCategoryRequest("Shopping");
@@ -78,7 +78,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testDeleteCategory() {
+    public void deleteCategory() {
         when(categoryRepository.existsById(1L)).thenReturn(true);
 
         categoryService.deleteCategoryById(1L);
@@ -87,7 +87,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testDeleteCategory_categoryNotFound_throwsException() {
+    public void deleteCategory_categoryNotFound_throwsException() {
         when(categoryRepository.existsById(1L)).thenReturn(false);
 
         assertThatExceptionOfType(EntityNotFoundException.class)

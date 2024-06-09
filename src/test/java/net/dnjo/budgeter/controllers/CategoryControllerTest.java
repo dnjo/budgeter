@@ -33,7 +33,7 @@ class CategoryControllerTest {
     private CategoryService categoryService;
 
     @Test
-    public void testCreateCategory() throws Exception {
+    public void createCategory() throws Exception {
         var categoryResponse = new CategoryResponse(1L, "Shopping");
         when(categoryService.createCategory(any())).thenReturn(categoryResponse);
 
@@ -48,7 +48,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void testGetCategoryById() throws Exception {
+    public void getCategoryById() throws Exception {
         var categoryResponse = new CategoryResponse(1L, "Shopping");
         when(categoryService.findCategoryById(1L)).thenReturn(Optional.of(categoryResponse));
 
@@ -59,7 +59,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void testGetCategoryById_categoryNotFound_returns404() throws Exception {
+    public void getCategoryById_categoryNotFound_returns404() throws Exception {
         when(categoryService.findCategoryById(1L)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/categories/1"))
@@ -67,7 +67,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void testUpdateCategory() throws Exception {
+    public void updateCategory() throws Exception {
         var categoryResponse = new CategoryResponse(1L, "Transportation");
         when(categoryService.updateCategory(eq(1L), any())).thenReturn(categoryResponse);
 
@@ -82,7 +82,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void testUpdateCategory_categoryNotFound_returns404() throws Exception {
+    public void updateCategory_categoryNotFound_returns404() throws Exception {
         when(categoryService.updateCategory(eq(1L), any())).thenThrow(EntityNotFoundException.class);
 
         var request = new UpdateCategoryRequest("Transportation");
@@ -94,13 +94,13 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void testDeleteCategory() throws Exception {
+    public void deleteCategory() throws Exception {
         mockMvc.perform(delete("/categories/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testDeleteCategory_categoryNotFound_returns404() throws Exception {
+    public void deleteCategory_categoryNotFound_returns404() throws Exception {
         doThrow(EntityNotFoundException.class).when(categoryService).deleteCategoryById(1L);
 
         mockMvc.perform(delete("/categories/1"))

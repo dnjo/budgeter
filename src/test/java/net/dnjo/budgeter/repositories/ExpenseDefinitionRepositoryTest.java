@@ -48,7 +48,7 @@ class ExpenseDefinitionRepositoryTest {
     }
 
     @Test
-    public void testSaveExpenseDefinition_missingCategory_throwsException() {
+    public void saveExpenseDefinition_missingCategory_throwsException() {
         var expenseDefinition = new ExpenseDefinition();
         expenseDefinition.setName("Rent");
         expenseDefinition.setAmount(BigDecimal.valueOf(1000));
@@ -58,7 +58,7 @@ class ExpenseDefinitionRepositoryTest {
     }
 
     @Test
-    public void testSaveExpenseDefinition_missingName_throwsException() {
+    public void saveExpenseDefinition_missingName_throwsException() {
         var expenseDefinition = new ExpenseDefinition();
         expenseDefinition.setCategory(savedCategory);
         expenseDefinition.setAmount(BigDecimal.valueOf(1000));
@@ -68,7 +68,7 @@ class ExpenseDefinitionRepositoryTest {
     }
 
     @Test
-    public void testSaveExpenseDefinition_missingAmount_throwsException() {
+    public void saveExpenseDefinition_missingAmount_throwsException() {
         var expenseDefinition = new ExpenseDefinition();
         expenseDefinition.setCategory(savedCategory);
         expenseDefinition.setName("Rent");
@@ -78,7 +78,7 @@ class ExpenseDefinitionRepositoryTest {
     }
 
     @Test
-    public void testFindExpenseDefinitionById() {
+    public void findExpenseDefinitionById() {
         var expenseDefinition = new ExpenseDefinition();
         expenseDefinition.setCategory(savedCategory);
         expenseDefinition.setName("Rent");
@@ -96,7 +96,7 @@ class ExpenseDefinitionRepositoryTest {
     }
 
     @Test
-    public void testUpdateExpenseDefinition() {
+    public void updateExpenseDefinition() {
         var expenseDefinition = new ExpenseDefinition();
         expenseDefinition.setCategory(savedCategory);
         expenseDefinition.setName("Rent");
@@ -113,7 +113,7 @@ class ExpenseDefinitionRepositoryTest {
     }
 
     @Test
-    public void testDeleteExpenseDefinitionById() {
+    public void deleteExpenseDefinitionById() {
         var expenseDefinition = new ExpenseDefinition();
         expenseDefinition.setCategory(savedCategory);
         expenseDefinition.setName("Rent");
