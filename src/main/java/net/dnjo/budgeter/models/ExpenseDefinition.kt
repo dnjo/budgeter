@@ -3,6 +3,7 @@ package net.dnjo.budgeter.models
 import jakarta.persistence.*
 import java.math.BigDecimal
 
+@Entity
 class ExpenseDefinition(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +21,8 @@ class ExpenseDefinition(
     var amount: BigDecimal,
 
     @Column(nullable = false)
+    var name: String,
+
+    @Column
     var description: String
 )
