@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import static net.dnjo.budgeter.EntityDtoMapper.mapExpenseDefinitionResponse;
@@ -80,7 +81,7 @@ class ExpenseDefinitionServiceTest {
         foundExpenseDefinition.setId(1L);
         foundExpenseDefinition.setName("Rent");
         foundExpenseDefinition.setCategory(category);
-        foundExpenseDefinition.setAmount(BigDecimal.valueOf(1000L));
+        foundExpenseDefinition.setAmount(BigDecimal.valueOf(1000));
         when(expenseDefinitionRepository.findById(1L)).thenReturn(Optional.of(foundExpenseDefinition));
 
         Optional<ExpenseDefinitionResponse> response = expenseDefinitionService.findExpenseDefinitionById(1L);
@@ -88,6 +89,29 @@ class ExpenseDefinitionServiceTest {
         ExpenseDefinitionResponse expectedResponse = mapExpenseDefinitionResponse(foundExpenseDefinition);
         assertThat(response).usingRecursiveComparison().isEqualTo(Optional.of(expectedResponse));
         verify(expenseDefinitionRepository).findById(1L);
+    }
+
+    @Test
+    public void findAllExpenseDefinitions() {
+        var category = new Category(1L, "Housing");
+        var expenseDefinition1 = new ExpenseDefinition();
+        expenseDefinition1.setId(1L);
+        expenseDefinition1.setName("Rent");
+        expenseDefinition1.setCategory(category);
+        expenseDefinition1.setAmount(BigDecimal.valueOf(1000));
+        var expenseDefinition2 = new ExpenseDefinition();
+        expenseDefinition2.setId(2L);
+        expenseDefinition2.setName("Electricity");
+        expenseDefinition2.setCategory(category);
+        expenseDefinition2.setAmount(BigDecimal.valueOf(100));
+        when(expenseDefinitionRepository.findAll()).thenReturn(List.of(expenseDefinition1, expenseDefinition2));
+
+        List<ExpenseDefinitionResponse> allExpenseDefinitions = expenseDefinitionService.findAllExpenseDefinitions();
+
+        List<ExpenseDefinitionResponse> expectedResponses = List.of(
+                mapExpenseDefinitionResponse(expenseDefinition1),
+                mapExpenseDefinitionResponse(expenseDefinition2));
+        assertThat(allExpenseDefinitions).usingRecursiveComparison().isEqualTo(expectedResponses);
     }
 
     @Test
@@ -100,7 +124,7 @@ class ExpenseDefinitionServiceTest {
         updatedExpenseDefinition.setId(1L);
         updatedExpenseDefinition.setName("Rent");
         updatedExpenseDefinition.setCategory(category);
-        updatedExpenseDefinition.setAmount(BigDecimal.valueOf(1000L));
+        updatedExpenseDefinition.setAmount(BigDecimal.valueOf(1000));
         when(expenseDefinitionRepository.findById(1L)).thenReturn(Optional.of(updatedExpenseDefinition));
         when(expenseDefinitionRepository.save(any())).thenReturn(updatedExpenseDefinition);
 

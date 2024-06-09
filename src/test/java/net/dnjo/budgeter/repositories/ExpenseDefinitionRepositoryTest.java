@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -93,6 +94,38 @@ class ExpenseDefinitionRepositoryTest {
         assertThat(foundDefinition.getCategory()).usingRecursiveComparison().isEqualTo(savedCategory);
         assertThat(foundDefinition.getName()).isEqualTo("Rent");
         assertThat(savedDefinition.getAmount()).isEqualTo(BigDecimal.valueOf(1000));
+    }
+
+    @Test
+    public void findAllExpenseDefinitions() {
+        var expenseDefinition1 = new ExpenseDefinition();
+        expenseDefinition1.setCategory(savedCategory);
+        expenseDefinition1.setName("Rent");
+        expenseDefinition1.setAmount(BigDecimal.valueOf(1000));
+        ExpenseDefinition savedDefinition = expenseDefinitionRepository.save(expenseDefinition1);
+        var expenseDefinition2 = new ExpenseDefinition();
+        expenseDefinition2.setCategory(savedCategory);
+        expenseDefinition2.setName("Electricity");
+        expenseDefinition2.setAmount(BigDecimal.valueOf(100));
+        ExpenseDefinition savedDefinition2 = expenseDefinitionRepository.save(expenseDefinition2);
+
+        List<ExpenseDefinition> foundExpenseDefinitions = expenseDefinitionRepository.findAll();
+
+        List<ExpenseDefinition> expectedExpenseDefinitions = List.of(new ExpenseDefinition(
+                        savedDefinition.getId(),
+                        savedCategory,
+                        null,
+                        BigDecimal.valueOf(1000),
+                        "Rent",
+                        null),
+                new ExpenseDefinition(
+                        savedDefinition2.getId(),
+                        savedCategory,
+                        null,
+                        BigDecimal.valueOf(100),
+                        "Electricity",
+                        null));
+        assertThat(foundExpenseDefinitions).usingRecursiveComparison().isEqualTo(expectedExpenseDefinitions);
     }
 
     @Test

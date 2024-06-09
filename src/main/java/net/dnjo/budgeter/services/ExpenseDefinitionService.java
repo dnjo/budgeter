@@ -10,6 +10,7 @@ import net.dnjo.budgeter.repositories.CategoryRepository;
 import net.dnjo.budgeter.repositories.ExpenseDefinitionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static net.dnjo.budgeter.EntityDtoMapper.mapExpenseDefinitionResponse;
@@ -45,6 +46,13 @@ public class ExpenseDefinitionService {
 
     public Optional<ExpenseDefinitionResponse> findExpenseDefinitionById(Long id) {
         return expenseDefinitionRepository.findById(id).map(EntityDtoMapper::mapExpenseDefinitionResponse);
+    }
+
+    public List<ExpenseDefinitionResponse> findAllExpenseDefinitions() {
+        return expenseDefinitionRepository.findAll()
+                .stream()
+                .map(EntityDtoMapper::mapExpenseDefinitionResponse)
+                .toList();
     }
 
     public ExpenseDefinitionResponse updateExpenseDefinition(Long id, UpdateExpenseDefinitionRequest request) {
