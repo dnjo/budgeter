@@ -1,9 +1,9 @@
 package net.dnjo.budgeter.services;
 
 import net.dnjo.budgeter.EntityDtoMapper;
-import net.dnjo.budgeter.dtos.CreateExpenseDefinitionRequest;
-import net.dnjo.budgeter.dtos.ExpenseDefinitionResponse;
-import net.dnjo.budgeter.dtos.UpdateExpenseDefinitionRequest;
+import net.dnjo.budgeter.dtos.expensedefinition.CreateExpenseDefinitionRequest;
+import net.dnjo.budgeter.dtos.expensedefinition.ExpenseDefinitionResponse;
+import net.dnjo.budgeter.dtos.expensedefinition.UpdateExpenseDefinitionRequest;
 import net.dnjo.budgeter.exceptions.EntityNotFoundException;
 import net.dnjo.budgeter.models.ExpenseDefinition;
 import net.dnjo.budgeter.repositories.CategoryRepository;

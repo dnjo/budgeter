@@ -1,4 +1,4 @@
-package net.dnjo.budgeter.dtos
+package net.dnjo.budgeter.dtos.category
 
 class CategoryResponse(
     var id: Long,

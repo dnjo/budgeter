@@ -1,9 +1,9 @@
 package net.dnjo.budgeter.services;
 
 import net.dnjo.budgeter.EntityDtoMapper;
-import net.dnjo.budgeter.dtos.CategoryResponse;
-import net.dnjo.budgeter.dtos.CreateCategoryRequest;
-import net.dnjo.budgeter.dtos.UpdateCategoryRequest;
+import net.dnjo.budgeter.dtos.category.CategoryResponse;
+import net.dnjo.budgeter.dtos.category.CreateCategoryRequest;
+import net.dnjo.budgeter.dtos.category.UpdateCategoryRequest;
 import net.dnjo.budgeter.exceptions.EntityNotFoundException;
 import net.dnjo.budgeter.models.Category;
 import net.dnjo.budgeter.repositories.CategoryRepository;

@@ -1,8 +1,8 @@
 package net.dnjo.budgeter.controllers;
 
-import net.dnjo.budgeter.dtos.CategoryResponse;
-import net.dnjo.budgeter.dtos.CreateCategoryRequest;
-import net.dnjo.budgeter.dtos.UpdateCategoryRequest;
+import net.dnjo.budgeter.dtos.category.CategoryResponse;
+import net.dnjo.budgeter.dtos.category.CreateCategoryRequest;
+import net.dnjo.budgeter.dtos.category.UpdateCategoryRequest;
 import net.dnjo.budgeter.exceptions.EntityNotFoundException;
 import net.dnjo.budgeter.services.CategoryService;
 import org.springframework.http.HttpStatus;

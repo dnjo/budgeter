@@ -1,8 +1,8 @@
-package net.dnjo.budgeter.dtos
+package net.dnjo.budgeter.dtos.expensedefinition
 
 import java.math.BigDecimal
 
-class CreateExpenseDefinitionRequest(
+class UpdateExpenseDefinitionRequest(
     var categoryId: Long,
 
     var amount: BigDecimal,

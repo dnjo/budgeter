@@ -1,7 +1,7 @@
 package net.dnjo.budgeter;
 
-import net.dnjo.budgeter.dtos.CategoryResponse;
-import net.dnjo.budgeter.dtos.ExpenseDefinitionResponse;
+import net.dnjo.budgeter.dtos.category.CategoryResponse;
+import net.dnjo.budgeter.dtos.expensedefinition.ExpenseDefinitionResponse;
 import net.dnjo.budgeter.models.Category;
 import net.dnjo.budgeter.models.ExpenseDefinition;
 
