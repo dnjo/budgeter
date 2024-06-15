@@ -43,7 +43,7 @@ class CategoryControllerTest {
         mockMvc.perform(post("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Shopping"));
     }
@@ -112,7 +112,7 @@ class CategoryControllerTest {
     @Test
     public void deleteCategory() throws Exception {
         mockMvc.perform(delete("/categories/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test

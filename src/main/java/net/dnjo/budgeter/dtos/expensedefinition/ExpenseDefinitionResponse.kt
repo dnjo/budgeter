@@ -1,12 +1,11 @@
 package net.dnjo.budgeter.dtos.expensedefinition
 
-import net.dnjo.budgeter.dtos.category.CategoryResponse
 import java.math.BigDecimal
 
 class ExpenseDefinitionResponse(
     var id: Long,
 
-    var category: CategoryResponse,
+    var categoryId: Long,
 
     var amount: BigDecimal,
 

@@ -22,6 +22,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CategoryResponse createCategory(@RequestBody CreateCategoryRequest request) {
         return categoryService.createCategory(request);
     }
@@ -51,6 +52,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable("id") Long id) {
         try {
             categoryService.deleteCategoryById(id);

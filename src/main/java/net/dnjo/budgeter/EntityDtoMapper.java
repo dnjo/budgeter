@@ -14,7 +14,7 @@ public class EntityDtoMapper {
     public static ExpenseDefinitionResponse mapExpenseDefinitionResponse(ExpenseDefinition expenseDefinition) {
         return new ExpenseDefinitionResponse(
                 expenseDefinition.getId(),
-                mapCategoryResponse(expenseDefinition.getCategory()),
+                expenseDefinition.getCategory().getId(),
                 expenseDefinition.getAmount(),
                 expenseDefinition.getName(),
                 expenseDefinition.getDescription());
